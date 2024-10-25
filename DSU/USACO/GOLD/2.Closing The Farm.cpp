@@ -84,43 +84,56 @@ public:
 
 void _144()
 {
-    ll n,m;
-    cin>>n>>m;
+    ll n, m;
+    cin >> n >> m;
 
     DisjointSet ds(n);
-    vector<int>adjList[n+1];
+    vector<int> adjList[n + 1];
 
-    for(int i=1;i<=m;i++){
-        ll u,v;
-        cin>>u>>v;
+    for (int i = 1; i <= m; i++)
+    {
+        ll u, v;
+        cin >> u >> v;
         adjList[u].push_back(v);
         adjList[v].push_back(u);
     }
 
-    vector<int>existence(n+1);
-    vector<string>res;
-    int tot=0;
-    for(int i=1;i<=n;i++){
+    vector<int> existence(n + 1);
+    vector<string> res;
+    vector<ll>queries;
+    int tot = 0;
+    for (int i = 1; i <= n; i++)
+    {
         ll x;
-        cin>>x;
+        cin >> x;
+        queries.push_back(x);
+    }
 
-        existence[x]=1;
+    for(ll i=queries.size()-1;i>=0;i--){
+        ll x=queries[i];
+        
+        existence[x] = 1;
         tot++;
-        for(auto it:adjList[x]){
-            if(existence[it]==1 && ds.findUPar(it)!=ds.findUPar(x)){
-                ds.unionBySize(it,x);
+        for (auto it : adjList[x])
+        {
+            if (existence[it] == 1 && ds.findUPar(it) != ds.findUPar(x))
+            {
+                ds.unionBySize(it, x);
                 tot--;
             }
         }
-        if(tot==1){
+        if (tot == 1)
+        {
             res.push_back("YES");
         }
-        else res.push_back("NO");
+        else
+            res.push_back("NO");
     }
 
-    reverse(res.begin(),res.end());
+    reverse(res.begin(), res.end());
 
-    for(auto &it:res)cout<<it<<endl;
+    for (auto &it : res)
+        cout << it << endl;
 }
 
 //--------------------------------END--------------------------------------------------
@@ -128,6 +141,8 @@ void _144()
 // Main
 int main()
 {
+    freopen("closing.in", "r", stdin);
+    freopen("closing.out", "w", stdout);
 
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
