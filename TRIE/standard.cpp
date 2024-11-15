@@ -61,7 +61,8 @@ public:
             node = node->get(word[i]);
             node->increasePrefix(); 
         }
-        node->increaseEnd(); 
+        node->increaseEnd();
+        node->setEnd();
     }
 
     bool search(string word)
