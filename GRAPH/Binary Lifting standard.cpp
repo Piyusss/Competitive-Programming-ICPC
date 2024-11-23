@@ -1,9 +1,3 @@
-//@memset.DP.-1
-#include <bits/stdc++.h>
-using namespace std;
-using ll = long long;
-
-//--------------------------------WRITE_HERE-------------------------------------------
 
 class Tree {
   private:
@@ -80,42 +74,3 @@ class Tree {
         return depth[n1] + depth[n2] - 2 * depth[lca(n1, n2)];
     }
 };
-
-void _144()
-{
-    ll n,q;
-    cin>>n>>q;
-
-    vector<int>adjList[n];
-    for(int i=1;i<=n-1;i+=1){
-        ll x;cin>>x;x-=1;
-        adjList[x].push_back(i);
-        adjList[i].push_back(x);
-    }
-
-    Tree tree(adjList,n);
-
-    cout<<tree.dist(0,0);
-
-    return;
-}
-
-//--------------------------------END--------------------------------------------------
-
-// Main
-int main()
-{
-	//freopen("input.in", "r", stdin);
-	//freopen("output.out", "w", stdout);
-
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-
-    ll t = 1;
-    // cin >> t;
-    while (t--)
-    {
-        _144();
-    }
-}
