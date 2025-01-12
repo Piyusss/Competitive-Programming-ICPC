@@ -1,27 +1,33 @@
-struct SegmentTree
+//@memset.DP.-1
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+//--------------------------------WRITE_HERE-------------------------------------------
+
+class SegmentTree
 {
-    struct Node
+private:
+    class Node
     {
-        ll sum, prefixSum, suffixSum, maxSum;
+    public:
+        ll sum, maxPrefixSum, maxSuffixSum, maxSum;
+
+        Node() : sum(0), maxPrefixSum(0), maxSuffixSum(0), maxSum(0) {}
+
+        Node(ll sum, ll maxPrefixSum, ll maxSuffixSum, ll maxSum)
+            : sum(sum), maxPrefixSum(maxPrefixSum), maxSuffixSum(maxSuffixSum), maxSum(maxSum) {}
     };
 
     vector<Node> tree;
     vector<ll> arr;
     ll n;
 
-    SegmentTree(const vector<ll> &input)
-    {
-        n = input.size();
-        arr = input;
-        tree.resize(4 * n);
-        build(0, 0, n - 1);
-    }
-
     void build(ll node, ll start, ll end)
     {
         if (start == end)
         {
-            tree[node] = {arr[start], max(0LL, arr[start]), max(0LL, arr[start]), max(0LL, arr[start])};
+            tree[node] = Node(arr[start], max(0LL, arr[start]), max(0LL, arr[start]), max(0LL, arr[start]));
         }
         else
         {
@@ -36,9 +42,9 @@ struct SegmentTree
     {
         ll left = 2 * node + 1, right = 2 * node + 2;
         tree[node].sum = tree[left].sum + tree[right].sum;
-        tree[node].prefixSum = max(tree[left].prefixSum, tree[left].sum + tree[right].prefixSum);
-        tree[node].suffixSum = max(tree[right].suffixSum, tree[right].sum + tree[left].suffixSum);
-        tree[node].maxSum = max({tree[left].maxSum, tree[right].maxSum, tree[left].suffixSum + tree[right].prefixSum});
+        tree[node].maxPrefixSum = max(tree[left].maxPrefixSum, tree[left].sum + tree[right].maxPrefixSum);
+        tree[node].maxSuffixSum = max(tree[right].maxSuffixSum, tree[right].sum + tree[left].maxSuffixSum);
+        tree[node].maxSum = max({tree[left].maxSum, tree[right].maxSum, tree[left].maxSuffixSum + tree[right].maxPrefixSum});
     }
 
     void update(ll node, ll start, ll end, ll idx, ll value)
@@ -46,7 +52,7 @@ struct SegmentTree
         if (start == end)
         {
             arr[idx] = value;
-            tree[node] = {arr[start], max(0LL, arr[start]), max(0LL, arr[start]), max(0LL, arr[start])};
+            tree[node] = Node(arr[start], max(0LL, arr[start]), max(0LL, arr[start]), max(0LL, arr[start]));
         }
         else
         {
@@ -67,7 +73,7 @@ struct SegmentTree
     {
         if (r < start || end < l)
         {
-            return {0, 0, 0, 0};
+            return Node(0, 0, 0, 0); // Return an invalid node
         }
         if (l <= start && end <= r)
         {
@@ -78,10 +84,19 @@ struct SegmentTree
         Node right = query(2 * node + 2, mid + 1, end, l, r);
         Node result;
         result.sum = left.sum + right.sum;
-        result.prefixSum = max(left.prefixSum, left.sum + right.prefixSum);
-        result.suffixSum = max(right.suffixSum, right.sum + left.suffixSum);
-        result.maxSum = max({left.maxSum, right.maxSum, left.suffixSum + right.prefixSum});
+        result.maxPrefixSum = max(left.maxPrefixSum, left.sum + right.maxPrefixSum);
+        result.maxSuffixSum = max(right.maxSuffixSum, right.sum + left.maxSuffixSum);
+        result.maxSum = max({left.maxSum, right.maxSum, left.maxSuffixSum + right.maxPrefixSum});
         return result;
+    }
+
+public:
+    SegmentTree(const vector<ll> &input)
+    {
+        n = input.size();
+        arr = input;
+        tree.resize(4 * n);
+        build(0, 0, n - 1);
     }
 
     void update(ll idx, ll value)
@@ -94,3 +109,46 @@ struct SegmentTree
         return query(0, 0, n - 1, l, r).maxSum;
     }
 };
+
+void _144()
+{
+    ll n, m;
+    cin >> n >> m;
+
+    vector<ll> arr(n);
+    for (ll i = 0; i < n; i++)
+    {
+        cin >> arr[i];
+    }
+
+    SegmentTree t(arr);
+    cout << t.query(0, n - 1) << "\n";
+
+    while (m--)
+    {
+        ll i, v;
+        cin >> i >> v;
+        t.update(i, v);
+        cout << t.query(0, n - 1) << "\n";
+    }
+}
+
+//--------------------------------END--------------------------------------------------
+
+// Main
+int main()
+{
+//freopen("input.in", "r",stdin);
+//freopen("output.out", "w",stdout);
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    ll t = 1;
+    // cin >> t;
+    while (t--)
+    {
+        _144();
+    }
+}
