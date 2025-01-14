@@ -120,3 +120,98 @@ int main()
         _144();
     }
 }
+
+
+
+
+
+
+
+
+
+//Method-01: O(N)
+//@memset.DP.-1
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+//--------------------------------WRITE_HERE-------------------------------------------
+
+const int MAX_NODES = 2e5 + 5;
+
+vector<int> adjacency_list[MAX_NODES];
+int total_nodes, a, b;
+long long result = 0;
+
+int get_prefix(const deque<int> &values, int max_index)
+{
+    if (max_index < 0)
+        return 0;
+    if (max_index + 1 >= values.size())
+        return values[0];
+    return values[0] - values[max_index + 1];
+}
+
+void combine(deque<int> &primary, deque<int> &secondary)
+{
+    if (primary.size() < secondary.size())
+        swap(primary, secondary);
+    for (size_t i = 0; i < secondary.size() - 1; ++i)
+        secondary[i] -= secondary[i + 1];
+    for (size_t i = 0; i < secondary.size(); ++i)
+        result += static_cast<long long>(secondary[i]) * (get_prefix(primary, b - i) - get_prefix(primary, a - 1 - i));
+    for (size_t i = secondary.size() - 1; i-- > 0;)
+        secondary[i] += secondary[i + 1];
+    for (size_t i = 0; i < secondary.size(); ++i)
+        primary[i] += secondary[i];
+}
+
+deque<int> depth_first_search(int current_node, int parent_node)
+{
+    deque<int> result_values = {1};
+    for (int neighbor : adjacency_list[current_node])
+    {
+        if (neighbor == parent_node)
+            continue;
+        deque<int> child_values = depth_first_search(neighbor, current_node);
+        child_values.push_front(child_values.front());
+        combine(result_values, child_values);
+    }
+    return result_values;
+}
+
+void _144()
+{
+    cin >> total_nodes >> a >> b;
+    for (int i = 0; i < total_nodes - 1; ++i)
+    {
+        int node_a, node_b;
+        cin >> node_a >> node_b;
+        adjacency_list[node_a].push_back(node_b);
+        adjacency_list[node_b].push_back(node_a);
+    }
+    depth_first_search(1, 0);
+    cout << result << "\n";
+
+    return;
+}
+
+//--------------------------------END--------------------------------------------------
+
+// Main
+int main()
+{
+//freopen("input.in", "r",stdin);
+//freopen("output.out", "w",stdout);
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    ll t = 1;
+    // cin >> t;
+    while (t--)
+    {
+        _144();
+    }
+}
