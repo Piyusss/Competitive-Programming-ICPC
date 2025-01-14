@@ -129,7 +129,7 @@ int main()
 
 
 
-//Method-01: O(N)
+//Method-02: O(N)
 //@memset.DP.-1
 #include <bits/stdc++.h>
 using namespace std;
