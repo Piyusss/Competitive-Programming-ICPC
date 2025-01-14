@@ -1,3 +1,5 @@
+//reference:- https://github.com/Piyusss/Competitive-Programming-ICPC/blob/main/CSES/TREE/Path%20queries-2.cpp
+
 class HLD
 {
 private:
