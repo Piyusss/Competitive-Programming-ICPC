@@ -33,11 +33,19 @@ void _144()
     string big=p+'#'+s;
     vector<int>pi=compute_pi(big);
 
-    for(auto &it:pi){
-        if(it==p.size()){
+    //print pi
+    // for(auto &it:pi) cout<<it<<" ";
+    // cout<<"\n";
+
+    for(int i=0;i<pi.size();i++){
+        if(pi[i]==p.size()){
             res++;
+
+            //print positions of occurences in s
+            // cout<<i-(p.size()+2)<<" ";
         }
     }
+    // cout<<"\n";
 
     cout<<res;
     return;
