@@ -24,14 +24,17 @@ vector<int> compute_pi(const string &s)
     return pi;
 }
 
-int find_compressed_length(const string &s)
+pair<int, string> find_compressed_string(const string &s)
 {
     int n = s.size();
     vector<int> pi = compute_pi(s);
     int k = n - pi[n - 1];
+
     if (n % k == 0)
-        return k;
-    return n;
+    {
+        return {k, s.substr(0, k)};
+    }
+    return {n, s};
 }
 
 void _144()
@@ -39,8 +42,9 @@ void _144()
     string s;
     cin >> s;
 
-    int compressed_length = find_compressed_length(s);
-    cout << compressed_length << "\n";
+    pair<int, string> result = find_compressed_string(s);
+    cout << "Compressed Length: " << result.first << "\n";
+    cout << "Compressed String: " << result.second << "\n";
 }
 
 //--------------------------------END--------------------------------------------------
