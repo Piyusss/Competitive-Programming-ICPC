@@ -71,6 +71,7 @@ public:
         AL.resize(n);
     }
 
+    //0-based
     void add_edge(int u, int v, ll w)
     {
         if (u == v)
@@ -81,6 +82,7 @@ public:
         AL[v].push_back(EL.size() - 1);
     }
 
+    //0-based
     ll get_max_flow(int s, int t)
     {
         ll mf = 0;
