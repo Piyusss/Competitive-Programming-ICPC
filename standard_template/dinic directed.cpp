@@ -1,18 +1,19 @@
-struct Edge
-{
-    int v;       
-    ll capacity; 
-    ll flow;     
-};
-
+//0-based
 class DINIC
 {
+    struct Edge
+    {
+        int v;
+        ll capacity;
+        ll flow;
+    };
+
 private:
-    int V;                    
-    vector<Edge> EL;         
-    vector<vector<int>> AL;  
-    vector<int> d, last;      
-    vector<pair<int, int>> p; 
+    int V;
+    vector<Edge> EL;
+    vector<vector<int>> AL;
+    vector<int> d, last;
+    vector<pair<int, int>> p;
 
     bool BFS(int s, int t)
     {
@@ -71,18 +72,18 @@ public:
         AL.resize(n);
     }
 
-    //0-based
+    // 0-based
     void add_edge(int u, int v, ll w)
     {
         if (u == v)
-            return;              
+            return;
         EL.push_back({v, w, 0});
         AL[u].push_back(EL.size() - 1);
-        EL.push_back({u, 0, 0}); 
+        EL.push_back({u, 0, 0});
         AL[v].push_back(EL.size() - 1);
     }
 
-    //0-based
+    // 0-based
     ll get_max_flow(int s, int t)
     {
         ll mf = 0;
